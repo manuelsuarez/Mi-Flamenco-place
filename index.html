@@ -1,318 +1,117 @@
-<!DOCTYPE html>
-<html lang="en-gb" dir="ltr">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>UIkit</title>
-        <link rel="shortcut icon" href="docs/images/favicon.ico" type="image/x-icon">
-        <link rel="apple-touch-icon-precomposed" href="docs/images/apple-touch-icon.png">
-        <link id="data-uikit-theme" rel="stylesheet" href="docs/css/uikit.docs.min.css">
-        <link rel="stylesheet" href="docs/css/docs.css">
-        <link rel="stylesheet" href="vendor/highlight/highlight.css">
-        <script src="vendor/jquery.js"></script>
-        <script src="dist/js/uikit.min.js"></script>
-        <script src="vendor/highlight/highlight.js"></script>
-        <script src="docs/js/docs.js"></script>
-    </head>
+<html xmlns="http://www.w3.org/1999/xhtml">
 
-    <body class="tm-background">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta name="author" content="The CSS Ninja" />
+	<meta name="keywords" content="CSS, CSS Ninja, The CSS Ninja, Web, xhtml, html, browsers, JavaScript, cascading style sheets" />
+	<meta name="description" content="Location aware web app utilising the Geolocation API to get a users location in the browser" />
+	<meta name="robots" content="all" />
+	<meta name="copyright" content="The CSS Ninja" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	
+	<link rel="stylesheet" type="text/css" href="_styles.css" media="screen" />
+	
+	<title>Geolocation in the browser | The CSS Ninja</title>
 
-        <nav class="tm-navbar uk-navbar uk-navbar-attached">
-            <div class="uk-container uk-container-center">
+</head>
+<body>
+	
+	<div id="loader">
+		<div class="loader">
+			<img src="data:image/gif;base64,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%3D%3D" alt="Loading web app..." width="31" height="31" />
+			<p>Determing your location...</p>
+		</div>
+	</div>
+	
+	<div id="TCN_Geo"></div>
 
-                <a class="uk-navbar-brand uk-hidden-small" href="index.html"><img class="uk-margin uk-margin-remove" src="docs/images/logo_uikit.svg" width="90" height="30" title="UIkit" alt="UIkit"></a>
+	<script type="text/javascript" src="http://tile.cloudmade.com/wml/0.2/web-maps-lite.js"></script>
+	<script type="text/javascript">
+		(function(){
+			var mapConfig = new CM.Tiles.CloudMade.Web({key: '0a3918fab1d451f6a1913e9fa0acc270', styleId: 1960}),
+				mapInstance = new CM.Map('TCN_Geo', mapConfig),
+				currentLatLng, cacheLatLng, failedLatLng, updatedLatLng, locationMarker, coordsListener,
+				loaderContainer = document.getElementById("loader");
+			
+			function mapSetup() {
+				if(navigator.geolocation) {
+					// Get current position
+					navigator.geolocation.getCurrentPosition(createMap, handleError); // Request live position
+					
+					window.scrollTo(0,1);
+				} else {
+					loaderContainer.getElementsByTagName("p")[0].textContent = "Browser does not support geolocation object";
+					window.setTimeout(failedError, 1000);
+				}
+			};
+			
+			// Update handlers
+			function createMap(position){
+				currentLatLng = new CM.LatLng(position.coords.latitude,position.coords.longitude);
+				
+				locationMarker = new CM.Marker(currentLatLng);
 
-                <ul class="uk-navbar-nav uk-hidden-small">
-                    <li><a href="docs/documentation_get-started.html">Get Started</a></li>
-                    <li><a href="docs/components.html">Components</a></li>
-                    <li><a href="docs/addons.html">Add-ons</a></li>
-                    <li><a href="docs/customizer.html">Customizer</a></li>
-                </ul>
-
-                <a href="#tm-offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
-
-                <div class="uk-navbar-brand uk-navbar-center uk-visible-small"><img src="docs/images/logo_uikit.svg" width="90" height="30" title="UIkit" alt="UIkit"></div>
-
-            </div>
-        </nav>
-
-        <div class="tm-section tm-section-color-1 tm-section-colored">
-            <div class="uk-container uk-container-center uk-text-center">
-
-                <img class="tm-logo" src="docs/images/logo_uikit_large.svg" width="281" height="217" title="UIkit" alt="UIkit">
-
-                <p class="uk-text-large">A lightweight and modular front-end framework<br class="uk-hidden-small"> for developing fast and powerful web interfaces.</p>
-
-                <a class="uk-button tm-button-download" data-uikit-download>Download UIkit</a>
-
-                <ul class="tm-subnav uk-subnav">
-                    <li><a href="https://github.com/uikit/uikit">GitHub</a></li>
-                    <li><a href="docs/documentation_get-started.html">Get Started</a></li>
-                    <li data-uikit-version></li>
-                </ul>
-
-                <ul class="tm-subnav uk-subnav">
-                    <li><a href="https://github.com/uikit/uikit/stargazers"><i class="uk-icon-star"></i> <span data-uikit-stargazers>2371</span> Stargazers</a></li>
-                    <li><a href="https://github.com/uikit/uikit/network"><i class="uk-icon-code-fork"></i> <span data-uikit-forks>387</span> Forks</a></li>
-                    <li><a href="https://twitter.com/getuikit"><i class="uk-icon-twitter"></i> @getuikit</a></li>
-                    <li><a href="https://plus.google.com/communities/114238665434626719878"><i class="uk-icon-google-plus"></i> Community</a></li>
-                </ul>
-
-            </div>
-        </div>
-
-        <div class="tm-section tm-section-color-2 tm-section-colored">
-            <div class="uk-container uk-container-center uk-text-center">
-
-                <h1 class="uk-heading-large">Features</h1>
-
-                <p class="uk-text-large">UIkit gives you a comprehensive collection of HTML, CSS, and JS components<br class="uk-hidden-small"> which is simple to use, easy to customize and extendable.</p>
-
-                <div class="uk-grid" data-uk-grid-margin>
-
-                    <div class="uk-width-medium-1-4">
-                        <div class="uk-panel">
-                            <img class="tm-image-pull" src="docs/images/icon_less.svg" width="200" height="140" alt="LESS">
-                            <h2 class="uk-margin-top-remove">LESS</h2>
-                            <p>UIkit is developed in <a href="http://lesscss.org">LESS</a> to write well-structured, extendable code which is easy to maintain.</p>
-                        </div>
-                    </div>
-
-                    <div class="uk-width-medium-1-4">
-                        <div class="uk-panel">
-                            <img class="tm-image-pull" src="docs/images/icon_components.svg" width="200" height="140" alt="Components">
-                            <h2 class="uk-margin-top-remove">Components</h2>
-                            <p>A collection of small, responsive components using consistent and conflict-free naming conventions.</p>
-                        </div>
-                    </div>
-
-                    <div class="uk-width-medium-1-4">
-                        <div class="uk-panel">
-                            <img class="tm-image-pull" src="docs/images/icon_themes.svg" width="200" height="140" alt="Themes">
-                            <h2 class="uk-margin-top-remove">Customizer</h2>
-                            <p>UIkit's very basic style can be extended with themes and is easy to customize to create your own look.</p>
-                        </div>
-                    </div>
-
-                    <div class="uk-width-medium-1-4">
-                        <div class="uk-panel">
-                            <img class="tm-image-pull" src="docs/images/icon_responsive.svg" width="200" height="140" alt="Responsive">
-                            <h2 class="uk-margin-top-remove">Responsive</h2>
-                            <p>With the mobile-first approach UIkit provides a consistent experience from phones and tablets to desktops.</p>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="tm-section tm-section-color-white">
-            <div class="uk-container uk-container-center uk-text-center">
-
-                <h1 class="tm-margin-large-bottom"><strong>Get involved.</strong> Become a part of the UIkit community.</h1>
-
-                <div class="uk-grid tm-grid-margin-large" data-uk-grid-match="{target:'.uk-panel'}" data-uk-grid-margin>
-
-                    <div class="uk-width-medium-1-3">
-                        <a class="uk-panel tm-panel-link" href="https://twitter.com/getuikit">
-                            <div class="tm-icon"><i class="uk-icon-twitter uk-icon-large"></i></div>
-                            <h2>Twitter</h2>
-                            <p>Follow us on Twitter and be the first to receive news and updates. We are open for your feedback and questions.</p>
-                        </a>
-                    </div>
-
-                    <div class="uk-width-medium-1-3">
-                        <a class="uk-panel tm-panel-link" href="https://github.com/uikit/uikit/issues">
-                            <div class="tm-icon"><i class="uk-icon-github-alt uk-icon-large"></i></div>
-                            <h2>Contribute on GitHub</h2>
-                            <p>You want to take part in the development? Fork UIkit on GitHub and send us a pull request. To report a bug, file a new issue.</p>
-                        </a>
-                    </div>
-
-                    <div class="uk-width-medium-1-3">
-                        <a class="uk-panel tm-panel-link" href="https://plus.google.com/communities/114238665434626719878">
-                            <div class="tm-icon"><i class="uk-icon-google-plus uk-icon-large"></i></div>
-                            <h2>Google+ Community</h2>
-                            <p>If you're interested in discussing, participating and helping each other, the UIkit Google+ community is the place to be.</p>
-                        </a>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="tm-section tm-section-color-2 tm-section-colored">
-            <div class="uk-container uk-container-center uk-text-center">
-
-                <h1 class="uk-heading-large uk-margin-bottom-remove">Open Source</h1>
-
-                <p class="uk-text-large">UIkit is an open source framework to make the web look good.<br class="uk-hidden-small"> Create your own styles and discover the unlimited use of UIkit.</p>
-
-                <div class="uk-grid uk-grid-divider" data-uk-grid-margin>
-
-                    <div class="uk-width-1-1 uk-width-medium-1-3">
-                        <div class="uk-panel">
-                            <h2>MIT License</h2>
-                            <p>UIkit is absolutely free of charge and you can use, copy, merge, publish and distribute the framework without any limitations.</p>
-                        </div>
-                    </div>
-
-                    <div class="uk-width-medium-1-3">
-                        <div class="uk-panel">
-                            <h2>Our Heros</h2>
-                            <p>A big thanks to LESS, jQuery, normalize.css and FontAwesome. UIkit wouldn't be possible without these awesome open source projects.</p>
-                        </div>
-                    </div>
-
-                    <div class="uk-width-medium-1-3">
-                        <div class="uk-panel">
-                            <h2>Active Development</h2>
-                            <p>UIkit is built by <a href="http://www.yootheme.com">YOOtheme</a>, using our extensive experience in creating Joomla and WordPress themes, to power the <a href="http://www.yootheme.com/themes/warp-framework">Warp theme framework</a>.</p>
-                        </div>
-                    </div>
-
-                 </div>
-
-            </div>
-        </div>
-
-        <div class="tm-footer">
-            <div class="uk-container uk-container-center uk-text-center">
-
-                <ul class="uk-subnav uk-subnav-line">
-                    <li><a href="https://github.com/uikit/uikit">GitHub</a></li>
-                    <li><a href="https://github.com/uikit/uikit/issues">Issues</a></li>
-                    <li><a href="https://github.com/uikit/uikit/blob/master/CHANGELOG.md">Changelog</a></li>
-                    <li><a href="https://twitter.com/getuikit">Twitter</a></li>
-                </ul>
-
-                <div class="uk-panel">
-                    <p>Made by <a href="http://www.yootheme.com">YOOtheme</a> with love and caffeine.<br class="uk-hidden-small">Licensed under <a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
-                    <a href="index.html"><img src="docs/images/logo_uikit.svg" width="90" height="30" title="UIkit" alt="UIkit"></a>
-                </div>
-
-            </div>
-        </div>
-
-        <div id="tm-offcanvas" class="uk-offcanvas">
-
-            <div class="uk-offcanvas-bar">
-
-                <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav="{ multiple: true }">
-                    <li class="uk-parent"><a href="#">Documentation</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/documentation_get-started.html">Get started</a></li>
-                            <li><a href="docs/documentation_how-to-customize.html">How to customize</a></li>
-                            <li><a href="docs/documentation_layouts.html">Layout examples</a></li>
-                            <li><a href="docs/components.html">Components</a></li>
-                            <li><a href="docs/addons.html">Add-ons</a></li>
-                            <li><a href="docs/documentation_project-structure.html">Project structure</a></li>
-                            <li><a href="docs/documentation_create-a-theme.html">Create a theme</a></li>
-                            <li><a href="docs/documentation_create-a-style.html">Create a style</a></li>
-                            <li><a href="docs/documentation_customizer-json.html">Customizer.json</a></li>
-                            <li><a href="docs/documentation_javascript.html">Javascript</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-nav-header">Components</li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-wrench"></i> Defaults</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/normalize.html">Normalize</a></li>
-                            <li><a href="docs/base.html">Base</a></li>
-                            <li><a href="docs/print.html">Print</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-th-large"></i> Layout</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/grid.html">Grid</a></li>
-                            <li><a href="docs/panel.html">Panel</a></li>
-                            <li><a href="docs/article.html">Article</a></li>
-                            <li><a href="docs/comment.html">Comment</a></li>
-                            <li><a href="docs/utility.html">Utility</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-bars"></i> Navigations</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/nav.html">Nav</a></li>
-                            <li><a href="docs/navbar.html">Navbar</a></li>
-                            <li><a href="docs/subnav.html">Subnav</a></li>
-                            <li><a href="docs/breadcrumb.html">Breadcrumb</a></li>
-                            <li><a href="docs/pagination.html">Pagination</a></li>
-                            <li><a href="docs/tab.html">Tab</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-check"></i> Elements</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/list.html">List</a></li>
-                            <li><a href="docs/description-list.html">Description list</a></li>
-                            <li><a href="docs/table.html">Table</a></li>
-                            <li><a href="docs/form.html">Form</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-folder-open"></i> Common</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/button.html">Button</a></li>
-                            <li><a href="docs/icon.html">Icon</a></li>
-                            <li><a href="docs/close.html">Close</a></li>
-                            <li><a href="docs/badge.html">Badge</a></li>
-                            <li><a href="docs/alert.html">Alert</a></li>
-                            <li><a href="docs/thumbnail.html">Thumbnail</a></li>
-                            <li><a href="docs/overlay.html">Overlay</a></li>
-                            <li><a href="docs/progress.html">Progress</a></li>
-                            <li><a href="docs/search.html">Search</a></li>
-                            <li><a href="docs/text.html">Text</a></li>
-                            <li><a href="docs/animation.html">Animation</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-magic"></i> JavaScript</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/dropdown.html">Dropdown</a></li>
-                            <li><a href="docs/modal.html">Modal</a></li>
-                            <li><a href="docs/offcanvas.html">Off-canvas</a></li>
-                            <li><a href="docs/switcher.html">Switcher</a></li>
-                            <li><a href="docs/toggle.html">Toggle</a></li>
-                            <li><a href="docs/tooltip.html">Tooltip</a></li>
-                            <li><a href="docs/scrollspy.html">Scrollspy</a></li>
-                            <li><a href="docs/smooth-scroll.html">Smooth scroll</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#">Add-ons</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/addons_markdownarea.html">Markdown area</a></li>
-                            <li><a href="docs/addons_sortable.html">Sortable</a></li>
-                            <li><a href="docs/addons_datepicker.html">Datepicker</a></li>
-                            <li><a href="docs/addons_timepicker.html">Timepicker</a></li>
-                            <li><a href="docs/addons_sticky.html">Sticky</a></li>
-                            <li><a href="docs/addons_notify.html">Notify</a></li>
-                            <li><a href="docs/addons_form-password.html">Form password</a></li>
-                            <li><a href="docs/addons_form-file.html">Form file</a></li>
-                        </ul>
-                    </li>
-                </ul>
-
-            </div>
-
-        </div>
-        <script>
-
-            $.ajax({
-                dataType : "jsonp",
-                url      : "https://api.github.com/repos/uikit/uikit?callback=ukghapi&nocache="+Math.random(),
-                success  : function(data){
-
-                    if(!data) return;
-
-                    if(data.data.watchers){
-                        $("[data-uikit-stargazers]").html(data.data.watchers);
-                    }
-
-                    if(data.data.forks){
-                        $("[data-uikit-forks]").html(data.data.forks);
-                    }
-                }
-            });
-        </script>
-    </body>
+				loaderContainer.style.display = "none";
+				
+				mapInstance.setCenter(currentLatLng, 15);
+				mapInstance.addOverlay(locationMarker);
+				locationMarker.openInfoWindow("<h3>Your location</h3>");
+				
+				// Inital location found create a watchPosition instance for continuous updates
+				coordsListener = navigator.geolocation.watchPosition(updateLocation, handleError);
+			};
+			function cacheLocation(position){
+				cacheLatLng = new CM.LatLng(position.coords.latitude,position.coords.longitude);
+				
+				locationMarker = new CM.Marker(cacheLatLng);     
+				mapInstance.setCenter(cacheLatLng, 15);
+				mapInstance.addOverlay(locationMarker);
+				locationMarker.openInfoWindow("<h3>Your last known location</h3>");
+			};
+			function updateLocation(position){ // Fires everytime your location changes
+				updatedLatLng = new CM.LatLng(position.coords.latitude,position.coords.longitude);
+				
+				// Moves marker to updated location.
+				locationMarker.setLatLng(updatedLatLng);
+				
+				mapInstance.setCenter(updatedLatLng, 15);
+				locationMarker.openInfoWindow("<h3>Your are here</h3>");
+				window.scrollTo(0,1);
+			};
+			
+			// Error handlers
+			function handleError(error){
+				if(error.code === 1) {
+					//Location services is either disabled or you denied access to your position
+					failedError();
+				} else {
+					//Current location could not be determined, falling back to last known within 10 minutes
+					navigator.geolocation.getCurrentPosition(cacheLocation, cacheError, {maximumAge:600000, timeout:0});
+				}
+				
+				loaderContainer.style.display = "none";
+			};
+			function cacheError(error){
+				//Couldn't get current nor no more than 10 min old cache location, fallback to any cache
+				navigator.geolocation.getCurrentPosition(cacheLocation, failedError, {maximumAge:"Infinite", timeout:0});
+			};
+			function failedError(error){
+				//Failed to find any location, fallback to Apple HQ
+				
+				failedLatLng = new CM.LatLng(37.331689,-122.030731);
+				
+				locationMarker = new CM.Marker(failedLatLng);         
+				mapInstance.setCenter(failedLatLng, 15);
+				mapInstance.addOverlay(locationMarker);
+				locationMarker.openInfoWindow("<h3>Apple HQ</h3>");
+				window.scrollTo(0,1);
+			};
+			
+			mapSetup();
+		})();
+	</script>
+	
+</body>
 </html>
