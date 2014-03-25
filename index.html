@@ -1,172 +1,86 @@
-
-
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+                      "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
-    <title>Geolocation</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
-    </style>
-    <!--
-    Include the maps javascript with sensor=true because this code is using a
-    sensor (a GPS locator) to determine the user's location.
-    See: https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API
-    -->
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <title>PhoneGap Back Button Example</title>
 
-    <script>
-// Note: This example requires that you consent to location sharing when
-// prompted by your browser. If you see a blank space instead of the map, this
-// is probably because you have denied permission for location sharing.
+    <script type="text/javascript" charset="utf-8" src="phonegap.0.9.5.js"></script>
+    <script type="text/javascript" charset="utf-8">
+   
+    var myMedia = null;
+	var playing = false;
+	
+    function playAudio() {
+		if (!playing) {
+            myMedia.play();	
+			document.getElementById('play').src = "images/pause.png";
+			playing = true;	
+		} else {
+			myMedia.pause();
+            document.getElementById('play').src = "images/play.png";    
+            playing = false; 
+		}
+    }
 
-var map;
+    function stopAudio() {
+		myMedia.stop();
+		playing = false;
+        document.getElementById('play').src = "images/play.png";    
+		document.getElementById('audio_position').innerHTML = "0.000 sec";
+	}
 
-function initialize() {
-  var mapOptions = {
-    zoom: 6
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
+   function onLoad() {
+       document.addEventListener("deviceready", onDeviceReady, false);
+   }
+   
+   function onDeviceReady(){
+   	console.log("Got device ready");
+   	updateMedia();
+   }
+   
+   function updateMedia(src) {
+   	    // Clean up old file
+   	    if (myMedia != null) {
+			myMedia.release();
+		}
+		
+		// Get the new media file
+		var yourSelect = document.getElementById('playlist');		
+        myMedia = new Media(yourSelect.options[yourSelect.selectedIndex].value, stopAudio, null);
 
-  // Try HTML5 geolocation
-  if(navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = new google.maps.LatLng(position.coords.latitude,
-                                       position.coords.longitude);
+		// Update media position every second
+	    var mediaTimer = setInterval(function() {
+	        // get media position
+	        myMedia.getCurrentPosition(
+	            // success callback
+	            function(position) {
+	                if (position > -1) {
+						document.getElementById('audio_position').innerHTML = (position/1000) + " sec";
+	                }
+	            },
+	            // error callback
+	            function(e) {
+	                console.log("Error getting pos=" + e);
+	            }
+	        );
+	    }, 1000);
+   }
 
-      var infowindow = new google.maps.InfoWindow({
-        map: map,
-        position: pos,
-        content: 'YOUR ARE HERE MOTHER FUCKER.'
-      });
-
-      map.setCenter(pos);
-    }, function() {
-      handleNoGeolocation(true);
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    handleNoGeolocation(false);
-  }
-}
-
-function handleNoGeolocation(errorFlag) {
-  if (errorFlag) {
-    var content = 'Error: The Geolocation service failed.';
-  } else {
-    var content = 'Error: Your browser doesn\'t support geolocation.';
-  }
-
-  var options = {
-    map: map,
-    position: new google.maps.LatLng(60, 105),
-    content: content
-  };
-
-  var infowindow = new google.maps.InfoWindow(options);
-  map.setCenter(options.position);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-    </script>
-
-        <script>
-var map;
-var brooklyn = new google.maps.LatLng(40.6743890, -73.9455);
-
-var MY_MAPTYPE_ID = 'custom_style';
-
-function initialize() {
-
-  var featureOpts = 
-
-    [
-      {
-        stylers: [
-          { saturation: -100 }
-        ]
-      },{
-        featureType: 'administrative',
-        stylers: [
-          { visibility: 'off' }
-        ]
-      },{
-        featureType: "poi.business",
-        stylers: [
-          { visibility: "off" }
-        ]
-      },{
-        featureType: "road",
-        elementType: "geometry.fill",
-        stylers: [
-          { visibility: "off" }
-        ]
-      },{
-        featureType: "road",
-        elementType: "geometry",
-        stylers: [
-          { weight: 0.1 },
-          { color: "#ffffff" }
-        ]
-      },{
-        featureType: "road",
-        elementType: "labels.icon",
-        stylers: [
-          { visibility: "off" }
-        ]
-      },{
-        featureType: "water",
-        stylers: [
-          { color: "#6bbeea" }
-        ]
-      },{
-        featureType: "poi.park",
-        stylers: [
-          { color: "#57B7B2" }
-        ]
-      },{
-        featureType: "transit",
-        stylers: [
-          { visibility: "off" }
-        ]
-      }
-    ]
-
-
-  var mapOptions = {
-    zoom: 15,
-    center: brooklyn,
-    mapTypeControlOptions: {
-      mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
-    },
-    mapTypeId: MY_MAPTYPE_ID
-  };
-
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-
-  var styledMapOptions = {
-    name: 'Custom Style'
-  };
-
-  var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
-
-  map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-    </script>
-  </head>
-  <body>
-    <div id="map-canvas"></div>
-  </body>
+   function setAudioPosition(position) {
+       document.getElementById('audio_position').innerHTML =position;
+   }
+ </script>
+ <body onload="onLoad()">
+   <h1>Audio Player</h1>
+   <p id="audio_position">0.000 sec</p>
+   <p>
+	   	<select id="playlist" onchange="updateMedia()">
+	        <option checked value="/android_asset/www/test.mp3">Asset</option>
+	        <option value="test.mp3">SD Card</option>
+	        <option value="http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3">Internet</option>
+	   </select>
+   </p>
+   <a href="#" onclick="playAudio()"><img id="play" src="images/play.png"></a>
+   <a href="#" onclick="stopAudio()"><img id="stop" src="images/stop.png"></a>
+ </body>
 </html>
-
