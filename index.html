@@ -1,196 +1,172 @@
+
+
 <!DOCTYPE html>
-<!--
-  ~ /*******************************************************************************
-  ~  jquery.mb.components
-  ~  file: demo.html
-  ~
-  ~  Copyright (c) 2001-2013. Matteo Bicocchi (Pupunzi);
-  ~  Open lab srl, Firenze - Italy
-  ~  email: matteo@open-lab.com
-  ~  site: 	http://pupunzi.com
-  ~  blog:	http://pupunzi.open-lab.com
-  ~ 	http://open-lab.com
-  ~
-  ~  Licences: MIT, GPL
-  ~  http://www.opensource.org/licenses/mit-license.php
-  ~  http://www.gnu.org/licenses/gpl.html
-  ~
-  ~  last modified: 20/12/13 0.00
-  ~  ******************************************************************************/
-  -->
-
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>jquery.mb.miniAudioPlayer</title>
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-    <script type="text/javascript" src="inc/jquery.jplayer.min.js"></script>
-    <script type="text/javascript" src="inc/jquery.mb.miniPlayer.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/miniplayer.css" title="style"  media="screen"/>
-    <link href='http://fonts.googleapis.com/css?family=Lekton' rel='stylesheet' type='text/css'>
-    <style type="text/css">
-
-            /*Generic page style*/
-
-        body{
-            margin:0px;
-            background: #ffc000;
-            font:normal 16px/20px Lekton, sans-serif;
-        }
-
-        .wrapper{
-            position:absolute;
-            padding:100px 50px;
-            width:80%;
-            min-height: 100%;
-            margin-left: 10% ;
-            top:0;
-            background: #e8e8e8;
-
-            font:normal 16px/20px Lekton, sans-serif;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            box-shadow: 0 0 10px rgba(0,0,0,0.4);
-        }
-
-
-        .wrapper h1{
-            font-family:Arial, Helvetica, sans-serif;
-            font-size:26px;
-        }
-
-        button{
-            padding:3px;
-            display:inline-block;
-            cursor:pointer;
-            font:16px/18px Arial, Helvetica, sans-serif;
-            color:#fff;
-            background-color:#ccc;
-            border-radius:5px;
-            box-shadow:#999 1px 1px 3px;
-            border:1px solid white;
-            text-shadow: 1px -1px 2px #aaa9a9 !important;
-        }
-
-        button:hover{
-            color:#666;
-        }
-
-        hr{
-            border:none;
-            background-color:#ccc;
-            height:1px;
-        }
-
-        .wrapper span.param{
-            font:normal 13px/15px Lekton, sans-serif;
-            color:#767676;
-            display: block;
-            margin-top: 10px;
-        }
-
+  <head>
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
     </style>
+    <!--
+    Include the maps javascript with sensor=true because this code is using a
+    sensor (a GPS locator) to determine the user's location.
+    See: https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API
+    -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 
-    <script type="text/javascript">
+    <script>
+// Note: This example requires that you consent to location sharing when
+// prompted by your browser. If you see a blank space instead of the map, this
+// is probably because you have denied permission for location sharing.
 
-        $(function(){
+var map;
 
-            if (self.location.href == top.location.href){
-                $("body").css({font:"normal 13px/16px 'trebuchet MS', verdana, sans-serif"});
-                var logo=$("<a href='http://pupunzi.com'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository' style='display:none;'></a>").css({position:"absolute", top:10, left:10});
-                $(".wrapper").prepend(logo);
-                $("#logo").fadeIn();
-            }
-            var ua = navigator.userAgent.toLowerCase();
-            var isAndroid = /android/.test(ua);
-            var isAndroidDefault = isAndroid && !(/chrome/i).test(ua);
+function initialize() {
+  var mapOptions = {
+    zoom: 6
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
 
-            if(isAndroidDefault){
-                alert("Sorry, your browser does not support this implementation of the player. It will be used the standard HTML5 audio player instead")
-            }
+  // Try HTML5 geolocation
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
 
-            $(".audio").mb_miniPlayer({
-                width:240,
-                inLine:false,
-                id3:false,
-                downloadPage:null
-//                downloadPage:"map_download.php"
-            });
+      var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos,
+        content: 'YOUR ARE HERE MOTHER FUCKER.'
+      });
 
-        });
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+}
+
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed.';
+  } else {
+    var content = 'Error: Your browser doesn\'t support geolocation.';
+  }
+
+  var options = {
+    map: map,
+    position: new google.maps.LatLng(60, 105),
+    content: content
+  };
+
+  var infowindow = new google.maps.InfoWindow(options);
+  map.setCenter(options.position);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
-</head>
 
-<body>
-<br>
-<br>
-<br>
-<br>
-<div class="wrapper">
-    <h1>mb.miniAudioPlayer.demo</h1>
-    <br>
-    This is a GUI implementation of <a href="http://www.jplayer.org/" target="_blank"><strong>Happyworm jPlayer plugin</strong></a>, an HTML5 audio engine, developed on jQuery framework, that let you listen mp3 and ogg file over the html5 audio tag where supported or using an invisible flash player where not supported.
-    For more informations about html5 browsers' support go to <a href="http://www.jplayer.org/latest/developer-guide/" target="_blank">jPlayer documentation site</a>.
-    <br>
-    <br>
-    <p><a href="skinMaker.html"> Customize the player skin</a></p>
-    <br>
-    <a id="m1" class="audio {ogg:'audio/allegro.ogg', loop:true, inLine:true, downloadable:true}" href="audio/allegro.mp3">Pietro Bicocchi - Allegro (mp3/ogg)</a>
-    <button onclick="$('#m1').mb_miniPlayer_play()">play</button>
-    <button onclick="$('#m1').mb_miniPlayer_stop()">stop</button>
-    <br>
-    <span class="param">param -> all features - loop = true</span>
-    <hr>
-    <a id="m2" class="audio {skin:'orange', ogg:'http://www.miaowmusic.com/ogg/Miaow-02-Hidden.ogg', showTime:false, downloadable:true}" href="http://www.miaowmusic.com/mp3/Miaow-02-Hidden.mp3">miaowmusic - Hidden (ogg/mp3)</a>
-    <span class="param"> param -> showTime:false, ogg:'http://www.miaowmusic.com/ogg/Miaow-02-Hidden.ogg' (FF will play it as HTML5)</span>
-    <hr>
-    <a id="m3" class="audio {skin:'blue', autoPlay:false,showRew:false}" href="http://www.miaowmusic.com/mp3/Miaow-08-Stirring-of-a-fool.mp3">miaowmusic - Stirring of a Fool (mp3)</a>
-    <span class="param">param -> showRew:false</span>
-    <hr>
-    <a id="m4" class="audio {skin:'red', autoPlay:false,showRew:false, showTime:false}" href="http://www.miaowmusic.com/mp3/Miaow-04-Lismore.mp3">miaowmusic - Lismore (mp3)</a>
-    <span class="param">param -> showRew:false, showTime:false</span>
-    <hr>
-    <a id="m5" class="audio {skin:'green', autoPlay:false, addShadow:false}" href="http://www.miaowmusic.com/mp3/Miaow-08-Stirring-of-a-fool.mp3">miaowmusic - Stirring of a Fool (mp3)</a>
-    <br>
-    <div>change track:
-        <br>
-        <button onclick="$('#m5').mb_miniPlayer_changeFile({mp3:'http://www.miaowmusic.com/mp3/Miaow-04-Lismore.mp3'},'Lismore (mp3)')">miaowmusic - Lismore</button>
-        <button onclick="$('#m5').mb_miniPlayer_changeFile({mp3:'http://www.miaowmusic.com/mp3/Miaow-02-Hidden.mp3'},'Hidden (mp3)')">miaowmusic - Hidden</button>
-    </div>
-    <br>
-    <hr>
-    <a id="m7" class="audio {skin:'black', autoPlay:false}" href="http://www.jplayer.org/audio/m4a/TSP-01-Cro_magnon_man.m4a">Cro Magnon Man</a>
-    <span class="param">param -> uses m4a audio</span>
-    <hr>
-    <a id="m8" class="audio {skin:'red', autoPlay:false, width:80}" href="http://listen.radionomy.com/abc-jazz/#.mp3">Jazz radio stream</a>
-    <span class="param">This example get the stream of <a href="http://radionomy.com">Radionomy</a> Jazz channel</span>
-    <hr>
-    This is a gray player: <a id="m9" class="audio {skin:'gray', autoPlay:false, inLine:true, showVolumeLevel:false, showRew:true, showTime:false, width:100, addShadow:false}" href="http://www.miaowmusic.com/mp3/Miaow-04-Lismore.mp3">miaowmusic - Lismore (mp3)</a>
-    <span>and it is inline</span>
+        <script>
+var map;
+var brooklyn = new google.maps.LatLng(40.6743890, -73.9455);
 
-    <hr>
-    <br>
-    <b>jquery.mb.miniPlayer</b> is a GUI implementation of the <a href="http://www.jplayer.org" target="_blank">jquery.jPlayer</a> plug-in realized by © Happyworm LTD. (many thanks to <a href="http://happyworm.com/blog/" target="_blank">Mark Boas</a>)
-    <br>
-    All the music are provided by <a href="http://www.miaowmusic.com" target="_blank">© miaowmusic</a>.
-</div>
+var MY_MAPTYPE_ID = 'custom_style';
 
-<script>
+function initialize() {
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-10907260-1']);
-  _gaq.push(['_setDomainName', 'pupunzi.com']);
-  _gaq.push(['_trackPageview']);
+  var featureOpts = 
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+    [
+      {
+        stylers: [
+          { saturation: -100 }
+        ]
+      },{
+        featureType: 'administrative',
+        stylers: [
+          { visibility: 'off' }
+        ]
+      },{
+        featureType: "poi.business",
+        stylers: [
+          { visibility: "off" }
+        ]
+      },{
+        featureType: "road",
+        elementType: "geometry.fill",
+        stylers: [
+          { visibility: "off" }
+        ]
+      },{
+        featureType: "road",
+        elementType: "geometry",
+        stylers: [
+          { weight: 0.1 },
+          { color: "#ffffff" }
+        ]
+      },{
+        featureType: "road",
+        elementType: "labels.icon",
+        stylers: [
+          { visibility: "off" }
+        ]
+      },{
+        featureType: "water",
+        stylers: [
+          { color: "#6bbeea" }
+        ]
+      },{
+        featureType: "poi.park",
+        stylers: [
+          { color: "#57B7B2" }
+        ]
+      },{
+        featureType: "transit",
+        stylers: [
+          { visibility: "off" }
+        ]
+      }
+    ]
 
-</script>
 
-</body>
+  var mapOptions = {
+    zoom: 15,
+    center: brooklyn,
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
+    },
+    mapTypeId: MY_MAPTYPE_ID
+  };
+
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  var styledMapOptions = {
+    name: 'Custom Style'
+  };
+
+  var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
+
+  map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
 </html>
+
