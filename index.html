@@ -13,6 +13,8 @@
         <script src="vendor/jquery.js"></script>
         <script src="dist/js/uikit.min.js"></script>
         <script src="vendor/highlight/highlight.js"></script>
+        <script src="docs/js/background-check.min.js"></script>
+        <script src="docs/js/fixed-nav.js"></script>
         <script src="docs/js/docs.js"></script>
     </head>
 
@@ -20,14 +22,7 @@
 
         <nav class="tm-navbar uk-navbar uk-navbar-attached">
             <div class="uk-container uk-container-center">
-                <ul class="uk-navbar-nav uk-hidden-small">
-                    <li><a href="docs/documentation_get-started.html">Get Started</a></li>
-                    <li><a href="docs/components.html">Components</a></li>
-                    <li><a href="docs/addons.html">Add-ons</a></li>
-                    <li><a href="docs/customizer.html">Customizer</a></li>
-                </ul>
-
-                <a href="#tm-offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
+                <a href="#tm-offcanvas" class="fixed-nav" data-uk-offcanvas>aa</a>
             </div>
         </nav>
 
@@ -196,8 +191,10 @@
             <div class="uk-offcanvas-bar">
 
                 <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav="{ multiple: true }">
+                    <li ><a href="places.html">PLACES</a></li>
                     <li class="uk-parent"><a href="#">Documentation</a>
                         <ul class="uk-nav-sub">
+                            <li><a href="docs/documentation_get-started.html">Get started</a></li>
                             <li><a href="docs/documentation_get-started.html">Get started</a></li>
                             <li><a href="docs/documentation_how-to-customize.html">How to customize</a></li>
                             <li><a href="docs/documentation_layouts.html">Layout examples</a></li>

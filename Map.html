@@ -1,0 +1,90 @@
+<html>    
+  <head> 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="docs/js/jquery-1.4.4.min.js"></script>        
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    <script type="text/javascript" src="docs/js/gmap3.min.js"></script> 
+    <style>
+      body{
+        text-align:center;
+        margin: 0;
+      }
+      .gmap3{
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    
+    <script type="text/javascript">
+        
+      $(function(){
+        $('#test1').gmap3({
+          map:{
+            options:{
+              center:[37.388086,-5.985274],
+              zoom: 15,
+              mapTypeId: google.maps.MapTypeId.ROADMAP,
+              styles: 
+                [ { featureType: "landscape", elementType: "geometry", stylers: [ { hue: "#ffd500" }, { gamma: 0.16 }, { saturation: 90 }, { lightness: 28 } ] },{ featureType: "administrative", stylers: [ { visibility: "off" } ] },{ featureType: "landscape", stylers: [ { visibility: "simplified" } ] },{ featureType: "poi.business", stylers: [ { visibility: "off" } ] },{ featureType: "poi.medical", stylers: [ { visibility: "off" } ] },{ featureType: "poi.park", stylers: [ { color: "#F8D855" }, { gamma: 0.74 }, { lightness: -10 } ] },{ featureType: "poi.place_of_worship", stylers: [ { visibility: "off" } ] },{ featureType: "poi.school", stylers: [ { visibility: "off" } ] },{ featureType: "poi.sports_complex", stylers: [ { visibility: "off" } ] },{ featureType: "road", elementType: "geometry", stylers: [ { visibility: "simplified" }, { weight: 1.9 }, { color: "#F8D855" }, { lightness: 46 } ] },{ featureType: "road", elementType: "labels.icon", stylers: [ { visibility: "off" }, { weight: 0.1 } ] },{ featureType: "transit", stylers: [ { visibility: "off" } ] },{ featureType: "water", stylers: [ { color: "#F8D855" }, { lightness: 19 } ] } ],
+                  mapTypeControl: false,
+              panControl: false,
+              zoomControl: false,
+              scaleControl: false,
+              streetViewControl: true,
+                  streetViewControlOptions: {
+                  style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                  position: google.maps.ControlPosition.BOTTOM_CENTER
+              },      
+            }
+          },
+          marker:{
+            values:[
+              {latLng:[37.388086,-5.985274], data:"Paris !", options:{icon: "http://maps.google.com/intl/en_us/mapfiles/ms/micons/red.png"}},
+              {address:"San Juan de la Palma, 28 Sevilla", data:"Poitiers : great city !", options:{icon: "http://maps.google.com/intl/en_us/mapfiles/ms/micons/red.png"}},
+              {latLng:[37.391671,-5.994458], data:"Perpignan ! <br> GO USAP !", options:{icon: "http://maps.google.com/intl/en_us/mapfiles/ms/micons/red.png"}}
+            ],
+            options:{
+              draggable: false
+            },
+            events:{
+              click: function(marker, event, context){
+                var map = $(this).gmap3("get"),
+                  infowindow = $(this).gmap3({get:{name:"infowindow"}});
+                if (infowindow){
+                  infowindow.open(map, marker);
+                  infowindow.setContent(context.data);
+                } else {
+                  $(this).gmap3({
+                    infowindow:{
+                      anchor:marker, 
+                      options:{content: context.data}
+                    }
+                  });
+                }
+              }
+            }
+          }
+        });
+
+        $("#test1").gmap3({
+          getgeoloc:{
+            callback : function(latLng){
+              if (latLng){
+                $("#test18-result").html("localised !");
+                $(this).gmap3({
+                  map:{latLng: latLng},
+                  marker:{latLng: latLng, options:{icon: "http://plebeosaur.us/etc/map/bluedot_retina.png"}},
+                });
+              } else {
+                $("#test18-result").html("not localised !");
+              }
+            }
+          }
+        });
+    
+      });
+    </script>
+  <body>
+    <div id="test1" class="gmap3"></div>
+  </body>
+</html>
