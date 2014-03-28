@@ -16,32 +16,64 @@
         <script src="docs/js/background-check.min.js"></script>
         <script src="docs/js/fixed-nav.js"></script>
         <script src="docs/js/docs.js"></script>
+        <script src="docs/js/off-canvas.js"></script>
         <script type="text/javascript" src="docs/js/jquery-1.4.4.min.js"></script>        
         <script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
         <script type="text/javascript" src="docs/js/gmap3.min.js"></script> 
 
             <style>
-      body{
-        text-align:center;
-        margin: 0;
-      }
-      .gmap3{
+    #map-canvas { 
         width: 100%;
         height: 100%;
         position: absolute;
         z-index: 1;
+        background: #F8D855;
       }
     </style>
     
-    <script type="text/javascript">
+<script type='text/javascript'>//<![CDATA[ 
+var points = [
+    ['name1', 37.388854,-5.993493, 12, '#my-id'],
+    ['name2', 37.380154,-5.995093, 11, 'www.amazon.com'],
+    ['name3', 37.378854,-5.992593, 10, 'www.stackoverflow.com']
+];
+
+function setMarkers(map, locations) {
+    var shape = {
+        coord: [1, 1, 1, 20, 18, 20, 18 , 1],
+        type: 'poly'
+    };
+    for (var i = 0; i < locations.length; i++) {
+        var flag = new google.maps.MarkerImage(
+            'http://googlemaps.googlermania.com/google_maps_api_v3/en/Google_Maps_Marker.png',
+            new google.maps.Size(37, 34),
+            new google.maps.Point(0,0),
+            new google.maps.Point(0, 19)
+        );
+        var place = locations[i];
+        var myLatLng = new google.maps.LatLng(place[1], place[2]);
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            icon: flag,
+            shape: shape,
+            title: place[0],
+            zIndex: place[3],
+            url: place[4]
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+            window.location.href = this.url;
+        });
         
-      $(function(){
-        $('#test1').gmap3({
-          map:{
-            options:{
-              center:[37.388086,-5.985274],
-              zoom: 15,
-              mapTypeId: google.maps.MapTypeId.ROADMAP,
+    } 
+    
+}
+
+function initialize() {
+    var myOptions = {
+        center: new google.maps.LatLng(37.388854,-5.993493),
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
               styles: 
                 [ { featureType: "landscape", elementType: "geometry", stylers: [ { hue: "#ffd500" }, { gamma: 0.16 }, { saturation: 90 }, { lightness: 28 } ] },{ featureType: "administrative", stylers: [ { visibility: "off" } ] },{ featureType: "landscape", stylers: [ { visibility: "simplified" } ] },{ featureType: "poi.business", stylers: [ { visibility: "off" } ] },{ featureType: "poi.medical", stylers: [ { visibility: "off" } ] },{ featureType: "poi.park", stylers: [ { color: "#F8D855" }, { gamma: 0.74 }, { lightness: -10 } ] },{ featureType: "poi.place_of_worship", stylers: [ { visibility: "off" } ] },{ featureType: "poi.school", stylers: [ { visibility: "off" } ] },{ featureType: "poi.sports_complex", stylers: [ { visibility: "off" } ] },{ featureType: "road", elementType: "geometry", stylers: [ { visibility: "simplified" }, { weight: 1.9 }, { color: "#F8D855" }, { lightness: 46 } ] },{ featureType: "road", elementType: "labels.icon", stylers: [ { visibility: "off" }, { weight: 0.1 } ] },{ featureType: "transit", stylers: [ { visibility: "off" } ] },{ featureType: "water", stylers: [ { color: "#F8D855" }, { lightness: 19 } ] } ],
                   mapTypeControl: false,
@@ -52,59 +84,67 @@
                   streetViewControlOptions: {
                   style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
                   position: google.maps.ControlPosition.BOTTOM_CENTER
-              },      
-            }
-          },
-          marker:{
-            values:[
-              {latLng:[37.388086,-5.985274], data:"place1", options:{icon: "http://maps.google.com/intl/en_us/mapfiles/ms/micons/red.png"}},
-              {address:"San Juan de la Palma, 28 Sevilla", data:"Poitiers : great city !", options:{icon: "http://maps.google.com/intl/en_us/mapfiles/ms/micons/red.png"}},
-              {latLng:[37.391671,-5.994458], data:"Perpignan ! <br> GO USAP !", options:{icon: "http://maps.google.com/intl/en_us/mapfiles/ms/micons/red.png"}}
-            ],
-            options:{
-              draggable: false
-            },
-            events:{
-              click: function(marker, event, context){
-                var map = $(this).gmap3("get"),
-                  infowindow = $(this).gmap3({get:{name:"infowindow"}});
-                if (infowindow){
-                  infowindow.open(map, marker);
-                  infowindow.setContent(context.data,'<a href="#','" data-uk-offcanvas>...</a>');
-                } else {
-                  $(this).gmap3({
-                    infowindow:{
-                      anchor:marker, 
-                      options:{content: context.data}
-                    }
-                  });
-                }
-              }
-            }
-          }
-        });
+              },
+    };
+    var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+    setMarkers(map, points);
+      if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
 
-        $("#test1").gmap3({
-          getgeoloc:{
-            callback : function(latLng){
-              if (latLng){
-                $("#test18-result").html("localised !");
-                $(this).gmap3({
-                  map:{latLng: latLng},
-                  marker:{latLng: latLng, options:{icon: "http://plebeosaur.us/etc/map/bluedot_retina.png"}},
-                });
-              } else {
-                $("#test18-result").html("not localised !");
-              }
-            }
+            var image = new google.maps.MarkerImage(
+              'http://plebeosaur.us/etc/map/bluedot_retina.png',
+              null, // size
+              null, // origin
+              new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
+              new google.maps.Size( 17, 17 ) // scaled size (required for Retina display icon)
+            );
+
+            // then create the new marker
+            myMarker = new google.maps.Marker({
+              flat: true,
+              icon: image,
+              map: map,
+              optimized: false,
+              position: pos,
+              title: 'I might be here',
+              visible: true
+            });
+
+
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+      // allow iPhone or Android to track movement
+      if ( useragent.indexOf('iPhone') !== -1 || useragent.indexOf('Android') !== -1 ) {
+        navigator.geolocation.watchPosition( 
+          displayLocation, 
+          handleError, 
+          { 
+            enableHighAccuracy: true, 
+            maximumAge: 30000, 
+            timeout: 27000 
           }
-        });
-    
-      });
-    </script>
+        );      
+
+      // or let other geolocation capable browsers to get their static position
+      } else if ( navigator.geolocation ) {
+        navigator.geolocation.getCurrentPosition( displayLocation, handleError );
+      }
+}
+
+//]]>  
+
+</script>
     </head>
 
-    <body class="tm-background">
+    <body class="tm-background-yellow" onload="initialize()">
 
         <nav class="tm-navbar uk-navbar uk-navbar-attached">
             <div class="uk-container uk-container-center">
@@ -113,8 +153,8 @@
         </nav>
 
 
-    <div id="test1" class="gmap3"></div>
-
+  <div id="map-canvas" class="uk-animation-slide-bottom"></div>
+ 
 
 
 <!-- This is the off-canvas sidebar -->

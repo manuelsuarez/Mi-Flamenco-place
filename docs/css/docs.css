@@ -32,7 +32,7 @@ html { overflow-y: scroll; }
  ========================================================================== */
 
 
-.tm-background { background: red; }
+.tm-background-yellow { background: #F7805C; }
 
 /*
  * Blocks
