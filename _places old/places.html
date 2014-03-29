@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>UIkit</title>
+        <link rel="shortcut icon" href="docs/images/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon-precomposed" href="docs/images/apple-touch-icon.png">
+        <link id="data-uikit-theme" rel="stylesheet" href="docs/css/uikit.docs.min.css">
+        <link rel="stylesheet" href="docs/css/docs.css">
+        <link rel="stylesheet" href="vendor/highlight/highlight.css">
+        <script src="vendor/jquery.js"></script>
+        <script src="dist/js/uikit.min.js"></script>
+        <script src="vendor/highlight/highlight.js"></script>
+        <script src="docs/js/background-check.min.js"></script>
+        <script src="docs/js/fixed-nav.js"></script>
+        <script src="docs/js/docs.js"></script>
+        <script src="docs/js/off-canvas.js"></script>
+        <script type="text/javascript" src="docs/js/jquery-1.4.4.min.js"></script>        
+        <script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+        <script type="text/javascript" src="docs/js/gmap3.min.js"></script> 
+
+            <style>
+    #map-canvas { 
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 1;
+        background: #8DD1C5;
+      }
+    </style>
+    
+<script type='text/javascript'>//<![CDATA[ 
+var points = [
+    ['name1', 37.388854,-5.993493, 12, 'places/place1.html'],
+    ['name2', 37.380154,-5.995093, 11, 'www.amazon.com'],
+    ['name3', 37.378854,-5.992593, 10, 'www.stackoverflow.com']
+];
+
+function setMarkers(map, locations) {
+    var shape = {
+        coord: [1, 1, 1, 20, 18, 20, 18 , 1],
+        type: 'poly'
+    };
+    for (var i = 0; i < locations.length; i++) {
+        var flag = new google.maps.MarkerImage(
+            'http://googlemaps.googlermania.com/google_maps_api_v3/en/Google_Maps_Marker.png',
+            new google.maps.Size(37, 34),
+            new google.maps.Point(0,0),
+            new google.maps.Point(0, 19)
+        );
+        var place = locations[i];
+        var myLatLng = new google.maps.LatLng(place[1], place[2]);
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            icon: flag,
+            shape: shape,
+            title: place[0],
+            zIndex: place[3],
+            url: place[4]
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+            window.location.href = this.url;
+        });
+        
+    } 
+    
+}
+
+function initialize() {
+    var myOptions = {
+        center: new google.maps.LatLng(37.388854,-5.993493),
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+              styles: 
+                [ { featureType: "landscape", elementType: "geometry", stylers: [ { color: "#8DD1C5" }] },{ featureType: "poi", elementType: "geometry", stylers: [ { color: "#8DD1C5" },
+      { "lightness": -6 }] },{ featureType: "administrative", stylers: [ { visibility: "off" } ] },{ featureType: "landscape", stylers: [ { visibility: "simplified" } ] },{ featureType: "poi.business", stylers: [ { visibility: "off" } ] },{ featureType: "poi.medical", stylers: [ { visibility: "off" } ] },{ featureType: "poi.park", stylers: [ { color: "#8BD1C5" }, { gamma: 0.74 }, { lightness: -10 } ] },{ featureType: "poi.place_of_worship", stylers: [ { visibility: "off" } ] },{ featureType: "poi.school", stylers: [ { visibility: "off" } ] },{ featureType: "poi.sports_complex", stylers: [ { visibility: "off" } ] },{ featureType: "road", elementType: "geometry", stylers: [ { visibility: "simplified" }, { weight: 1.9 }, { color: "#8BD1C5" }, { lightness: 46 } ] },{ featureType: "road", elementType: "labels.icon", stylers: [ { visibility: "off" }, { weight: 0.1 } ] },{ featureType: "transit", stylers: [ { visibility: "off" } ] },{ featureType: "water", stylers: [ { color: "#8BD1C5" }, { lightness: 19 } ] } ],
+                  mapTypeControl: false,
+              panControl: false,
+              zoomControl: false,
+              scaleControl: false,
+              streetViewControl: true,
+                  streetViewControlOptions: {
+                  style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                  position: google.maps.ControlPosition.BOTTOM_CENTER
+              },
+    };
+    var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+    setMarkers(map, points);
+      if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+            var image = new google.maps.MarkerImage(
+              'http://plebeosaur.us/etc/map/bluedot_retina.png',
+              null, // size
+              null, // origin
+              new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
+              new google.maps.Size( 17, 17 ) // scaled size (required for Retina display icon)
+            );
+
+            // then create the new marker
+            myMarker = new google.maps.Marker({
+              flat: true,
+              icon: image,
+              map: map,
+              optimized: false,
+              position: pos,
+              title: 'I might be here',
+              visible: true
+            });
+
+
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+      // allow iPhone or Android to track movement
+      if ( useragent.indexOf('iPhone') !== -1 || useragent.indexOf('Android') !== -1 ) {
+        navigator.geolocation.watchPosition( 
+          displayLocation, 
+          handleError, 
+          { 
+            enableHighAccuracy: true, 
+            maximumAge: 30000, 
+            timeout: 27000 
+          }
+        );      
+
+      // or let other geolocation capable browsers to get their static position
+      } else if ( navigator.geolocation ) {
+        navigator.geolocation.getCurrentPosition( displayLocation, handleError );
+      }
+}
+
+//]]>  
+
+</script>
+    </head>
+
+    <body class="tm-background-blue" onload="initialize()">
+
+        <nav class="tm-navbar uk-navbar uk-navbar-attached">
+            <div class="uk-container uk-container-center">
+                <a href="#tm-offcanvas" class="fixed-nav" data-uk-offcanvas>aa</a>
+                <a href="#my-id" class="fixed-nav" data-uk-offcanvas>aa</a>
+            </div>
+        </nav>
+
+
+  <div id="map-canvas" class="uk-animation-slide-left"></div>
+ 
+
+
+<!-- This is the off-canvas sidebar -->
+<div id="my-id" class="uk-offcanvas">
+    <div class="uk-offcanvas-bar uk-offcanvas-bar-flip">PRUEBA PRUBA</div>
+</div>
+ 
+
+        <div id="tm-offcanvas" class="uk-offcanvas">
+
+            <div class="uk-offcanvas-bar">
+
+                <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav="{ multiple: true }">
+                    <li class="uk-parent"><a href="#">Documentation</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="docs/documentation_get-started.html">Get started</a></li>
+                            <li><a href="docs/documentation_how-to-customize.html">How to customize</a></li>
+                            <li><a href="docs/documentation_layouts.html">Layout examples</a></li>
+                            <li><a href="docs/components.html">Components</a></li>
+                            <li><a href="docs/addons.html">Add-ons</a></li>
+                            <li><a href="docs/documentation_project-structure.html">Project structure</a></li>
+                            <li><a href="docs/documentation_create-a-theme.html">Create a theme</a></li>
+                            <li><a href="docs/documentation_create-a-style.html">Create a style</a></li>
+                            <li><a href="docs/documentation_customizer-json.html">Customizer.json</a></li>
+                            <li><a href="docs/documentation_javascript.html">Javascript</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-nav-header">Components</li>
+                    <li class="uk-parent"><a href="#"><i class="uk-icon-wrench"></i> Defaults</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="docs/normalize.html">Normalize</a></li>
+                            <li><a href="docs/base.html">Base</a></li>
+                            <li><a href="docs/print.html">Print</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-parent"><a href="#"><i class="uk-icon-th-large"></i> Layout</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="docs/grid.html">Grid</a></li>
+                            <li><a href="docs/panel.html">Panel</a></li>
+                            <li><a href="docs/article.html">Article</a></li>
+                            <li><a href="docs/comment.html">Comment</a></li>
+                            <li><a href="docs/utility.html">Utility</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-parent"><a href="#"><i class="uk-icon-bars"></i> Navigations</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="docs/nav.html">Nav</a></li>
+                            <li><a href="docs/navbar.html">Navbar</a></li>
+                            <li><a href="docs/subnav.html">Subnav</a></li>
+                            <li><a href="docs/breadcrumb.html">Breadcrumb</a></li>
+                            <li><a href="docs/pagination.html">Pagination</a></li>
+                            <li><a href="docs/tab.html">Tab</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-parent"><a href="#"><i class="uk-icon-check"></i> Elements</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="docs/list.html">List</a></li>
+                            <li><a href="docs/description-list.html">Description list</a></li>
+                            <li><a href="docs/table.html">Table</a></li>
+                            <li><a href="docs/form.html">Form</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-parent"><a href="#"><i class="uk-icon-folder-open"></i> Common</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="docs/button.html">Button</a></li>
+                            <li><a href="docs/icon.html">Icon</a></li>
+                            <li><a href="docs/close.html">Close</a></li>
+                            <li><a href="docs/badge.html">Badge</a></li>
+                            <li><a href="docs/alert.html">Alert</a></li>
+                            <li><a href="docs/thumbnail.html">Thumbnail</a></li>
+                            <li><a href="docs/overlay.html">Overlay</a></li>
+                            <li><a href="docs/progress.html">Progress</a></li>
+                            <li><a href="docs/search.html">Search</a></li>
+                            <li><a href="docs/text.html">Text</a></li>
+                            <li><a href="docs/animation.html">Animation</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-parent"><a href="#"><i class="uk-icon-magic"></i> JavaScript</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="docs/dropdown.html">Dropdown</a></li>
+                            <li><a href="docs/modal.html">Modal</a></li>
+                            <li><a href="docs/offcanvas.html">Off-canvas</a></li>
+                            <li><a href="docs/switcher.html">Switcher</a></li>
+                            <li><a href="docs/toggle.html">Toggle</a></li>
+                            <li><a href="docs/tooltip.html">Tooltip</a></li>
+                            <li><a href="docs/scrollspy.html">Scrollspy</a></li>
+                            <li><a href="docs/smooth-scroll.html">Smooth scroll</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-parent"><a href="#">Add-ons</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="docs/addons_markdownarea.html">Markdown area</a></li>
+                            <li><a href="docs/addons_sortable.html">Sortable</a></li>
+                            <li><a href="docs/addons_datepicker.html">Datepicker</a></li>
+                            <li><a href="docs/addons_timepicker.html">Timepicker</a></li>
+                            <li><a href="docs/addons_sticky.html">Sticky</a></li>
+                            <li><a href="docs/addons_notify.html">Notify</a></li>
+                            <li><a href="docs/addons_form-password.html">Form password</a></li>
+                            <li><a href="docs/addons_form-file.html">Form file</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+        <script>
+
+            $.ajax({
+                dataType : "jsonp",
+                url      : "https://api.github.com/repos/uikit/uikit?callback=ukghapi&nocache="+Math.random(),
+                success  : function(data){
+
+                    if(!data) return;
+
+                    if(data.data.watchers){
+                        $("[data-uikit-stargazers]").html(data.data.watchers);
+                    }
+
+                    if(data.data.forks){
+                        $("[data-uikit-forks]").html(data.data.forks);
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

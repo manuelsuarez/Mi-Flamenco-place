@@ -27,15 +27,36 @@
         height: 100%;
         position: absolute;
         z-index: 1;
-        background: #F8D855;
+        background: #8DD1C5;
       }
     </style>
     
 <script type='text/javascript'>//<![CDATA[ 
 var points = [
-    ['name1', 37.388854,-5.993493, 12, '#my-id'],
-    ['name2', 37.380154,-5.995093, 11, 'www.amazon.com'],
-    ['name3', 37.378854,-5.992593, 10, 'www.stackoverflow.com']
+    ['Los Corralones', 37.3962594, -5.989295399999946, 31, 'places/place1.html'],
+    ['Rectorado de la Universidad de Sevilla', 37.381678, -5.990537, 30, 'places/place2.html'],
+    ['Tablao Los Gallos', 37.3851776, -5.988677800000005, 29, 'places/place3.html'],
+	['Casa Curro Fernandez', 37.384394, -6.002636, 28, 'places/place4.html'],
+	['Bar Las Maravillas', 37.3966317, -5.9939511999999695, 27, 'places/place5.html'],
+	['Conservatorio Profesional de Danza', 37.372999, -5.990082, 26, 'places/place6.html'],
+	['Sala Amador', 37.378058, -5.997004, 10, 'places/place7.html'],
+	['Andrés Marín Flamenco Abierto', 37.398798, -5.990063, 25, 'places/place8.html'],
+	['Plaza del Altozano', 37.385305, -6.003245, 24, 'places/place9.html'],
+	['Oficina Antonio Pulpón', 37.392420, -5.995340, 23, 'places/place10.html'],
+	['Tramallol', 37.397842, -5.985355, 22, 'places/place11.html'],
+	['Bar Pinto', 37.392743, -5.995271, 21, 'places/place12.html'],
+	['Puente de Triana', 37.385789, -6.002860, 20, 'places/place13.html'],
+	['Colegio San Jacinto', 37.383362, -6.004966, 19, 'places/place14.html'],
+	['Torre de Don Fadrique', 37.400662, -5.995767, 18, 'places/place15.html'],
+	['Casa Manuel Vallejo', 37.397352, -5.987957, 17, 'places/place16.html'],
+	['Peña El Bollo', 37.384638, -6.002776, 16, 'places/place17.html'],
+	['Plaza Europa', 37.396963, -5.993435, 15, 'places/place18.html'],
+	['Pila del Pato', 37.391132, -5.988534, 14, 'places/place19.html'],
+	['Radio Sevilla', 37.390886, -6.000422, 13, 'places/place20.html'],
+	['Casa Niña de los Peines', 37.401792, -5.994337, 12,'places/place21.html'],
+	['Espacio Santa Clara', 37.399889, -5.995427, 11,'places/place22.html'],
+	['Casa Murillo', 37.385739, -5.989149, 10, 'places/place23.html'],
+	['Monumento Niña de los Peines', 37.400501, -5.994006, 10,'places/place24.html'],
 ];
 
 function setMarkers(map, locations) {
@@ -75,7 +96,8 @@ function initialize() {
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
               styles: 
-                [ { featureType: "landscape", elementType: "geometry", stylers: [ { hue: "#ffd500" }, { gamma: 0.16 }, { saturation: 90 }, { lightness: 28 } ] },{ featureType: "administrative", stylers: [ { visibility: "off" } ] },{ featureType: "landscape", stylers: [ { visibility: "simplified" } ] },{ featureType: "poi.business", stylers: [ { visibility: "off" } ] },{ featureType: "poi.medical", stylers: [ { visibility: "off" } ] },{ featureType: "poi.park", stylers: [ { color: "#F8D855" }, { gamma: 0.74 }, { lightness: -10 } ] },{ featureType: "poi.place_of_worship", stylers: [ { visibility: "off" } ] },{ featureType: "poi.school", stylers: [ { visibility: "off" } ] },{ featureType: "poi.sports_complex", stylers: [ { visibility: "off" } ] },{ featureType: "road", elementType: "geometry", stylers: [ { visibility: "simplified" }, { weight: 1.9 }, { color: "#F8D855" }, { lightness: 46 } ] },{ featureType: "road", elementType: "labels.icon", stylers: [ { visibility: "off" }, { weight: 0.1 } ] },{ featureType: "transit", stylers: [ { visibility: "off" } ] },{ featureType: "water", stylers: [ { color: "#F8D855" }, { lightness: 19 } ] } ],
+                [ { featureType: "landscape", elementType: "geometry", stylers: [ { color: "#8DD1C5" }] },{ featureType: "poi", elementType: "geometry", stylers: [ { color: "#8DD1C5" },
+      { "lightness": -6 }] },{ featureType: "administrative", stylers: [ { visibility: "off" } ] },{ featureType: "landscape", stylers: [ { visibility: "simplified" } ] },{ featureType: "poi.business", stylers: [ { visibility: "off" } ] },{ featureType: "poi.medical", stylers: [ { visibility: "off" } ] },{ featureType: "poi.park", stylers: [ { color: "#8BD1C5" }, { gamma: 0.74 }, { lightness: -10 } ] },{ featureType: "poi.place_of_worship", stylers: [ { visibility: "off" } ] },{ featureType: "poi.school", stylers: [ { visibility: "off" } ] },{ featureType: "poi.sports_complex", stylers: [ { visibility: "off" } ] },{ featureType: "road", elementType: "geometry", stylers: [ { visibility: "simplified" }, { weight: 1.9 }, { color: "#8BD1C5" }, { lightness: 46 } ] },{ featureType: "road", elementType: "labels.icon", stylers: [ { visibility: "off" }, { weight: 0.1 } ] },{ featureType: "transit", stylers: [ { visibility: "off" } ] },{ featureType: "water", stylers: [ { color: "#8BD1C5" }, { lightness: 19 } ] } ],
                   mapTypeControl: false,
               panControl: false,
               zoomControl: false,
@@ -144,12 +166,12 @@ function initialize() {
 </script>
     </head>
 
-    <body class="tm-background-yellow" onload="initialize()">
+    <body class="tm-background-blue" onload="initialize()">
 
         <nav class="tm-navbar uk-navbar uk-navbar-attached">
             <div class="uk-container uk-container-center">
-                <a href="#tm-offcanvas" class="fixed-nav" data-uk-offcanvas>aa</a>
-                <a href="#my-id" class="fixed-nav" data-uk-offcanvas>aa</a>
+                <a href="#tm-offcanvas" class="fixed-nav" data-uk-offcanvas><i class="uk-icon-bars"></i></a>
+                <a href="#my-id" class="fixed-nav nav-right" data-uk-offcanvas><i class="uk-icon-list-ul"></i></a>
             </div>
         </nav>
 
@@ -159,106 +181,110 @@ function initialize() {
 
 
 <!-- This is the off-canvas sidebar -->
-<div id="my-id" class="uk-offcanvas">
-    <div class="uk-offcanvas-bar uk-offcanvas-bar-flip">PRUEBA PRUBA</div>
-</div>
+        <div id="my-id" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar uk-offcanvas-bar-flip">
+                <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav="{ multiple: true }">
+                            <li class="uk-parent"><a href="#">Documentation</a>
+                                <ul class="uk-nav-sub">
+                                    <li><a href="docs/documentation_get-started.html">Get started</a></li>
+                                    <li><a href="docs/documentation_how-to-customize.html">How to customize</a></li>
+                                    <li><a href="docs/documentation_layouts.html">Layout examples</a></li>
+                                    <li><a href="docs/components.html">Components</a></li>
+                                    <li><a href="docs/addons.html">Add-ons</a></li>
+                                    <li><a href="docs/documentation_project-structure.html">Project structure</a></li>
+                                    <li><a href="docs/documentation_create-a-theme.html">Create a theme</a></li>
+                                    <li><a href="docs/documentation_create-a-style.html">Create a style</a></li>
+                                    <li><a href="docs/documentation_customizer-json.html">Customizer.json</a></li>
+                                    <li><a href="docs/documentation_javascript.html">Javascript</a></li>
+                                </ul>
+                            </li>
+                            <li class="uk-nav-header">Components</li>
+                            <li class="uk-parent"><a href="#"><i class="uk-icon-wrench"></i> Defaults</a>
+                                <ul class="uk-nav-sub">
+                                    <li><a href="docs/normalize.html">Normalize</a></li>
+                                    <li><a href="docs/base.html">Base</a></li>
+                                    <li><a href="docs/print.html">Print</a></li>
+                                </ul>
+                            </li>
+                            <li class="uk-parent"><a href="#"><i class="uk-icon-th-large"></i> Layout</a>
+                                <ul class="uk-nav-sub">
+                                    <li><a href="docs/grid.html">Grid</a></li>
+                                    <li><a href="docs/panel.html">Panel</a></li>
+                                    <li><a href="docs/article.html">Article</a></li>
+                                    <li><a href="docs/comment.html">Comment</a></li>
+                                    <li><a href="docs/utility.html">Utility</a></li>
+                                </ul>
+                            </li>
+                            <li class="uk-parent"><a href="#"><i class="uk-icon-bars"></i> Navigations</a>
+                                <ul class="uk-nav-sub">
+                                    <li><a href="docs/nav.html">Nav</a></li>
+                                    <li><a href="docs/navbar.html">Navbar</a></li>
+                                    <li><a href="docs/subnav.html">Subnav</a></li>
+                                    <li><a href="docs/breadcrumb.html">Breadcrumb</a></li>
+                                    <li><a href="docs/pagination.html">Pagination</a></li>
+                                    <li><a href="docs/tab.html">Tab</a></li>
+                                </ul>
+                            </li>
+                            <li class="uk-parent"><a href="#"><i class="uk-icon-check"></i> Elements</a>
+                                <ul class="uk-nav-sub">
+                                    <li><a href="docs/list.html">List</a></li>
+                                    <li><a href="docs/description-list.html">Description list</a></li>
+                                    <li><a href="docs/table.html">Table</a></li>
+                                    <li><a href="docs/form.html">Form</a></li>
+                                </ul>
+                            </li>
+                            <li class="uk-parent"><a href="#"><i class="uk-icon-folder-open"></i> Common</a>
+                                <ul class="uk-nav-sub">
+                                    <li><a href="docs/button.html">Button</a></li>
+                                    <li><a href="docs/icon.html">Icon</a></li>
+                                    <li><a href="docs/close.html">Close</a></li>
+                                    <li><a href="docs/badge.html">Badge</a></li>
+                                    <li><a href="docs/alert.html">Alert</a></li>
+                                    <li><a href="docs/thumbnail.html">Thumbnail</a></li>
+                                    <li><a href="docs/overlay.html">Overlay</a></li>
+                                    <li><a href="docs/progress.html">Progress</a></li>
+                                    <li><a href="docs/search.html">Search</a></li>
+                                    <li><a href="docs/text.html">Text</a></li>
+                                    <li><a href="docs/animation.html">Animation</a></li>
+                                </ul>
+                            </li>
+                            <li class="uk-parent"><a href="#"><i class="uk-icon-magic"></i> JavaScript</a>
+                                <ul class="uk-nav-sub">
+                                    <li><a href="docs/dropdown.html">Dropdown</a></li>
+                                    <li><a href="docs/modal.html">Modal</a></li>
+                                    <li><a href="docs/offcanvas.html">Off-canvas</a></li>
+                                    <li><a href="docs/switcher.html">Switcher</a></li>
+                                    <li><a href="docs/toggle.html">Toggle</a></li>
+                                    <li><a href="docs/tooltip.html">Tooltip</a></li>
+                                    <li><a href="docs/scrollspy.html">Scrollspy</a></li>
+                                    <li><a href="docs/smooth-scroll.html">Smooth scroll</a></li>
+                                </ul>
+                            </li>
+                            <li class="uk-parent"><a href="#">Add-ons</a>
+                                <ul class="uk-nav-sub">
+                                    <li><a href="docs/addons_markdownarea.html">Markdown area</a></li>
+                                    <li><a href="docs/addons_sortable.html">Sortable</a></li>
+                                    <li><a href="docs/addons_datepicker.html">Datepicker</a></li>
+                                    <li><a href="docs/addons_timepicker.html">Timepicker</a></li>
+                                    <li><a href="docs/addons_sticky.html">Sticky</a></li>
+                                    <li><a href="docs/addons_notify.html">Notify</a></li>
+                                    <li><a href="docs/addons_form-password.html">Form password</a></li>
+                                    <li><a href="docs/addons_form-file.html">Form file</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+            </div>
+        </div>
  
 
         <div id="tm-offcanvas" class="uk-offcanvas">
-
             <div class="uk-offcanvas-bar">
-
                 <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav="{ multiple: true }">
-                    <li class="uk-parent"><a href="#">Documentation</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/documentation_get-started.html">Get started</a></li>
-                            <li><a href="docs/documentation_how-to-customize.html">How to customize</a></li>
-                            <li><a href="docs/documentation_layouts.html">Layout examples</a></li>
-                            <li><a href="docs/components.html">Components</a></li>
-                            <li><a href="docs/addons.html">Add-ons</a></li>
-                            <li><a href="docs/documentation_project-structure.html">Project structure</a></li>
-                            <li><a href="docs/documentation_create-a-theme.html">Create a theme</a></li>
-                            <li><a href="docs/documentation_create-a-style.html">Create a style</a></li>
-                            <li><a href="docs/documentation_customizer-json.html">Customizer.json</a></li>
-                            <li><a href="docs/documentation_javascript.html">Javascript</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-nav-header">Components</li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-wrench"></i> Defaults</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/normalize.html">Normalize</a></li>
-                            <li><a href="docs/base.html">Base</a></li>
-                            <li><a href="docs/print.html">Print</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-th-large"></i> Layout</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/grid.html">Grid</a></li>
-                            <li><a href="docs/panel.html">Panel</a></li>
-                            <li><a href="docs/article.html">Article</a></li>
-                            <li><a href="docs/comment.html">Comment</a></li>
-                            <li><a href="docs/utility.html">Utility</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-bars"></i> Navigations</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/nav.html">Nav</a></li>
-                            <li><a href="docs/navbar.html">Navbar</a></li>
-                            <li><a href="docs/subnav.html">Subnav</a></li>
-                            <li><a href="docs/breadcrumb.html">Breadcrumb</a></li>
-                            <li><a href="docs/pagination.html">Pagination</a></li>
-                            <li><a href="docs/tab.html">Tab</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-check"></i> Elements</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/list.html">List</a></li>
-                            <li><a href="docs/description-list.html">Description list</a></li>
-                            <li><a href="docs/table.html">Table</a></li>
-                            <li><a href="docs/form.html">Form</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-folder-open"></i> Common</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/button.html">Button</a></li>
-                            <li><a href="docs/icon.html">Icon</a></li>
-                            <li><a href="docs/close.html">Close</a></li>
-                            <li><a href="docs/badge.html">Badge</a></li>
-                            <li><a href="docs/alert.html">Alert</a></li>
-                            <li><a href="docs/thumbnail.html">Thumbnail</a></li>
-                            <li><a href="docs/overlay.html">Overlay</a></li>
-                            <li><a href="docs/progress.html">Progress</a></li>
-                            <li><a href="docs/search.html">Search</a></li>
-                            <li><a href="docs/text.html">Text</a></li>
-                            <li><a href="docs/animation.html">Animation</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#"><i class="uk-icon-magic"></i> JavaScript</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/dropdown.html">Dropdown</a></li>
-                            <li><a href="docs/modal.html">Modal</a></li>
-                            <li><a href="docs/offcanvas.html">Off-canvas</a></li>
-                            <li><a href="docs/switcher.html">Switcher</a></li>
-                            <li><a href="docs/toggle.html">Toggle</a></li>
-                            <li><a href="docs/tooltip.html">Tooltip</a></li>
-                            <li><a href="docs/scrollspy.html">Scrollspy</a></li>
-                            <li><a href="docs/smooth-scroll.html">Smooth scroll</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent"><a href="#">Add-ons</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="docs/addons_markdownarea.html">Markdown area</a></li>
-                            <li><a href="docs/addons_sortable.html">Sortable</a></li>
-                            <li><a href="docs/addons_datepicker.html">Datepicker</a></li>
-                            <li><a href="docs/addons_timepicker.html">Timepicker</a></li>
-                            <li><a href="docs/addons_sticky.html">Sticky</a></li>
-                            <li><a href="docs/addons_notify.html">Notify</a></li>
-                            <li><a href="docs/addons_form-password.html">Form password</a></li>
-                            <li><a href="docs/addons_form-file.html">Form file</a></li>
-                        </ul>
-                    </li>
+                  <li class="tm-background-bluedark"><a href="index.html">inicio · home</a></li>
+                  <li class="tm-background-blue"><a href="places.html">lugares · places</a></li>
+                  <li class="tm-background-red"><a href="credits.html">créditos · credits</a></li>
                 </ul>
-
             </div>
 
         </div>
